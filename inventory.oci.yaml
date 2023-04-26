@@ -1,0 +1,5 @@
+plugin: oracle.oci.oci
+regions:
+  - uk-london-1
+
+enable_parallel_processing: yes
