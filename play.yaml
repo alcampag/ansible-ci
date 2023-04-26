@@ -1,0 +1,36 @@
+---
+# Copyright (c) 2020, 2023 Oracle and/or its affiliates.
+# This software is made available to you under the terms of the GPL 3.0 license or the Apache 2.0 license.
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# Apache License v2.0
+# See LICENSE.TXT for details.
+
+- name: Test playbook
+  hosts: all_hosts
+  vars:
+    compartment_id: "ocid1.compartment.oc1..aaaaaaaahpn2hc5tlyky3jpnsieshk6chr47t4rpasufsp67sjo7rtmeeoaq"
+
+  tasks:
+    - block:
+      - name: Create Container Instance
+        oci_container_instances_container_instance:
+          compartment_id: "{{ compartment_id }}"
+          display_name: "CI-1"
+          container_restart_policy: "Always"
+          availability_domain: "UK-LONDON-1-AD-1"
+          shape: "CI.Standard.E4.Flex"
+          shape_config:
+            ocpus: 1
+            memory_in_gbs: 8
+          vnics:
+            - subnet_id: "ocid1.subnet.oc1.uk-london-1.aaaaaaaakl74wuoa6lyxfr6sv3l6jar47qdor2dbrddx5jgg7vgoob4milra"
+          containers:
+            - image_url: "nginx:latest"
+              display_name: "nginx-CI-1"
+
+
+          
+
+
+#      rescue:
+#        - import_tasks: rollback.yaml
